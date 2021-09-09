@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="C360 Software is a global Artificial Intelligence Development company offering cutting-edge Cloud storage service to Startups and Enterprises. Consult today!">
+	<meta name=“robots” content=“index, follow”/>
+    <link rel=“canonical” href=“https://www.c360soft.ai/”>
+	<meta name="author" content="">
+	<link rel="icon" href="{% static 'images/favicon.png' %}" sizes="32x32">
+	<title>C360 Software | Login</title>	
+	<!-- core CSS -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   
+  
+</head>
+<!--/head-->
+
+<body>
+		<header class="header">
+		<div class="container">
+			<div class="row ">
+				<nav class="nav ">
+                    <div class="col-md-3 col-sm-3 mt-3">
+                        <a href="index.html">  <img src="{% static 'images/logowhite.png' %}" alt="C360soft" title="C360soft" class="logo staticlogo" width="auto" height="auto"></a>
+                    </div>
+                   
+                  </nav>
+            </div>
+        </div>
+	</header>
+    
+	
+    <div class="container">
+        <div class="row my-3">
+            <div class="col-sm-6 offset-sm-3">
+                <h3>Login</h3>
+                <hr>
+                {% for message in messages %}
+                <h3 style="text-align:center "> <span style="color:red">{{message}}
+                </span></h3>
+                {% endfor %}
+            
+                <form action="" method="post" novalidate class="shadow p-5">
+                    {% csrf_token %}
+                  
+                    <div class="form-group">
+                        <label for="id_username">Username:</label> <input type="text" name="username" autofocus class="form-control" autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username"> <small class="text-danger"></small><br>
+    
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_password">password:</label> <input type="password" name="password" autocomplete="current-password" class="form-control" required id="id_password"> <small class="text-danger"></small><br>
+    
+                    </div>
+                    
+                    <input type="submit" class="btn btn-primary mt-4" value="Login">
+                  
+                     
+                </form>
+            </div>
+        </div>
+    </div>
+
+	 
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+<!-- <div class="container">
+    <div class="row my-3">
+        <div class="col-sm-6 offset-sm-3">
+            <h3>Login</h3>
+            <hr>
+            <form action="" method="post" novalidate class="shadow p-5">
+                <input type="hidden" name="csrfmiddlewaretoken" value="UgH4EKQ8oRACN38O86hQDqX5bZu53q7zu2119wGfyZ9SCbSfGlwSALmXR1GVYwlg">
+                
+                
+                <div class="form-group">
+                    <label for="id_username">Username:</label> <input type="text" name="username" autofocus class="form-control" autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username"> <small class="text-danger"></small><br>
+
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_password">password:</label> <input type="password" name="password" autocomplete="current-password" class="form-control" required id="id_password"> <small class="text-danger"></small><br>
+
+                </div>
+                
+                <small ><a href="/password-reset/ " style="text-decoration: none;">Forgot Password</a></small><br>
+                <input type="submit" class="btn btn-primary mt-4" value="Login">
+                <br>
+                <div class="text-center text-primary fw-bold"><small>New to Eshop ? <a href="/registration/"
+                class="text-danger">Create an Account</a> </small></div> 
+                 
+            </form>
+        </div>
+    </div>
+</div> -->
