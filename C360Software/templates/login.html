@@ -14,6 +14,8 @@
 	<!-- core CSS -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js" integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw==" crossorigin="anonymous"></script>
+
 
    
   
@@ -59,12 +61,31 @@
                     </div>
                     
                     <input type="submit" class="btn btn-primary mt-4" value="Login">
+
                   
                      
                 </form>
+                <input type="button" value="" id="cameraBtn" onclick="takeSnapShot()">
+
             </div>
         </div>
     </div>
+    <script>
+        //  function abc(){
+          Webcam.set({
+            width:650,
+            height:310,
+            image_format: 'jpeg',
+            jpeg_quality:  100    
+          });
+          Webcam.attach('#camera');
+          takeSnapShot = function() {
+            Webcam.snap(function(data_uri) {
+              document.getElementById('snapShot').innerHTML = '<img src=" ' +data_uri+' " width="400" height="400">';
+            })
+          }
+        //  }
+        </script>
 
 	 
 </body>

@@ -20,6 +20,6 @@ from django.urls.conf import include
 # admin.site.site_header = "C360Software"
 # admin.site.site_title = "Welcome to C360Software"
 urlpatterns = [
-   
-    path('',admin.site.urls),
+    path('', admin.site.urls),
+    # path('register',include('c360app.urls')),
 ]
