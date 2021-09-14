@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-
+from c360app import views
 # admin.site.site_header = "C360Software"
 # admin.site.site_title = "Welcome to C360Software"
 urlpatterns = [
     path('', admin.site.urls),
+    path('home/',views.home,name='home')
     # path('register',include('c360app.urls')),
 ]

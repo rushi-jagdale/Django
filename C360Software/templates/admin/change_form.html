@@ -50,7 +50,13 @@
 
 {% block field_sets %}
 {% for fieldset in adminform %}
-  {% include "admin/includes/fieldset.html" %}
+<div id="my_camera"></div>
+<!-- <input type=hidden onClick="take_snapshot()"> -->
+
+<i class="fa fa-camera" style="font-size:36px" id="snapShot" onclick="take_snapshot()"></i>
+<div id="results" ></div>
+
+ {% include "admin/includes/fieldset.html" %}
 {% endfor %}
 {% endblock %}
 
@@ -74,9 +80,76 @@
             {% endif %}
             async>
     </script>
-   
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js" integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw==" crossorigin="anonymous"></script>
+   <!-- copy -->
+   <!-- Script -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 
+   <script language="JavaScript">
+
+    // Configure a few settings and attach camera
+  
+
+   
+    Webcam.set({
+     width: 200,
+     height: 150,
+     image_format: 'jpeg',
+     jpeg_quality: 100
+    });
+    Webcam.attach( '#my_camera' );
+   console.log(Webcam);
+   
+   function take_snapshot() {
+    // take snapshot and get image data
+    Webcam.snap( function(data_uri) {
+    // display results in page
+    document.getElementById('results').innerHTML =
+     '<img src="'+data_uri+'"/>';
+     imgArr.push(data_uri);
+    } );
+   
+   
+  
+   
+   let count = 0;
+   let imgArr = [];
+     var myvar = setInterval(function(){
+       if(Webcam.loaded){
+         if(count==2){
+           clearInterval(myvar);
+           console.log(imgArr);
+           let x = sendData();
+           console.log(x);
+         }
+         take_snapshot()
+         count++;
+       }
+     },500);
+   async function sendData(){
+     json = null;
+     await fetch('http://localhost:8000/', {
+       method: 'POST',
+       headers: {
+         'Accept': 'application/json',
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(imgArr)
+     })
+     .then((response) => response.json())
+     .then((responseJSON) => {
+        json = responseJSON;
+   
+        return json;
+     }).catch(err =>{
+         json = err;
+         return json;
+     });
+     Webcam.reset()
+   }
+  }
+   </script>
+   
+      
 {% endblock %}
  
 {# JavaScript for prepopulated fields #}

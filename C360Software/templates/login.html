@@ -1,130 +1,88 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>WEBCAM</title>
+    <style>
+#my_camera{
+ width: 400px;
+ height: 200px;
+ border: 1px solid black;
+}
+</style>
+  </head>
+  <body>
+    <div id="my_camera"></div>
+<!-- <input type=button value="Start" onClick="take_snapshot()"> -->
+<button onclick="opencamera()">opencamera</button>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="C360 Software is a global Artificial Intelligence Development company offering cutting-edge Cloud storage service to Startups and Enterprises. Consult today!">
-	<meta name=“robots” content=“index, follow”/>
-    <link rel=“canonical” href=“https://www.c360soft.ai/”>
-	<meta name="author" content="">
-	<link rel="icon" href="{% static 'images/favicon.png' %}" sizes="32x32">
-	<title>C360 Software | Login</title>	
-	<!-- core CSS -->
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js" integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw==" crossorigin="anonymous"></script>
+<div id="results" ></div>
 
+<!-- Script -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
 
-   
-  
-</head>
-<!--/head-->
+<!-- Code to handle taking the snapshot and displaying it locally -->
+<script language="JavaScript">
 
-<body>
-		<header class="header">
-		<div class="container">
-			<div class="row ">
-				<nav class="nav ">
-                    <div class="col-md-3 col-sm-3 mt-3">
-                        <a href="index.html">  <img src="{% static 'images/logowhite.png' %}" alt="C360soft" title="C360soft" class="logo staticlogo" width="auto" height="auto"></a>
-                    </div>
-                   
-                  </nav>
-            </div>
-        </div>
-	</header>
-    
-	
-    <div class="container">
-        <div class="row my-3">
-            <div class="col-sm-6 offset-sm-3">
-                <h3>Login</h3>
-                <hr>
-                {% for message in messages %}
-                <h3 style="text-align:center "> <span style="color:red">{{message}}
-                </span></h3>
-                {% endfor %}
-            
-                <form action="" method="post" novalidate class="shadow p-5">
-                    {% csrf_token %}
-                  
-                    <div class="form-group">
-                        <label for="id_username">Username:</label> <input type="text" name="username" autofocus class="form-control" autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username"> <small class="text-danger"></small><br>
-    
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="id_password">password:</label> <input type="password" name="password" autocomplete="current-password" class="form-control" required id="id_password"> <small class="text-danger"></small><br>
-    
-                    </div>
-                    
-                    <input type="submit" class="btn btn-primary mt-4" value="Login">
+ // Configure a few settings and attach camera
+ function opencamera(){
 
-                  
-                     
-                </form>
-                <input type="button" value="" id="cameraBtn" onclick="takeSnapShot()">
+ 
+ Webcam.set({
+  width: 800,
+  height: 600,
+  image_format: 'jpeg',
+  jpeg_quality: 100
+ });
+ Webcam.attach( '#my_camera' );
+console.log(Webcam);
+function take_snapshot() {
+ // take snapshot and get image data
+ Webcam.snap( function(data_uri) {
+ // display results in page
+ document.getElementById('results').innerHTML =
+  '<img src="'+data_uri+'"/>';
+  imgArr.push(data_uri);
+ } );
 
-            </div>
-        </div>
-    </div>
-    <script>
-        //  function abc(){
-          Webcam.set({
-            width:650,
-            height:310,
-            image_format: 'jpeg',
-            jpeg_quality:  100    
-          });
-          Webcam.attach('#camera');
-          takeSnapShot = function() {
-            Webcam.snap(function(data_uri) {
-              document.getElementById('snapShot').innerHTML = '<img src=" ' +data_uri+' " width="400" height="400">';
-            })
-          }
-        //  }
-        </script>
+}
 
-	 
-</body>
+let count = 0;
+let imgArr = [];
+  var myvar = setInterval(function(){
+    if(Webcam.loaded){
+      if(count==2){
+        clearInterval(myvar);
+        console.log(imgArr);
+        let x = sendData();
+        console.log(x);
+      }
+      take_snapshot()
+      count++;
+    }
+  },500);
+async function sendData(){
+  json = null;
+  await fetch('http://localhost:8000/', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(imgArr)
+  })
+  .then((response) => response.json())
+  .then((responseJSON) => {
+     json = responseJSON;
 
+     return json;
+  }).catch(err =>{
+      json = err;
+      return json;
+  });
+  Webcam.reset()
+}
+ }
+</script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-<!-- <div class="container">
-    <div class="row my-3">
-        <div class="col-sm-6 offset-sm-3">
-            <h3>Login</h3>
-            <hr>
-            <form action="" method="post" novalidate class="shadow p-5">
-                <input type="hidden" name="csrfmiddlewaretoken" value="UgH4EKQ8oRACN38O86hQDqX5bZu53q7zu2119wGfyZ9SCbSfGlwSALmXR1GVYwlg">
-                
-                
-                <div class="form-group">
-                    <label for="id_username">Username:</label> <input type="text" name="username" autofocus class="form-control" autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username"> <small class="text-danger"></small><br>
-
-                </div>
-                
-                <div class="form-group">
-                    <label for="id_password">password:</label> <input type="password" name="password" autocomplete="current-password" class="form-control" required id="id_password"> <small class="text-danger"></small><br>
-
-                </div>
-                
-                <small ><a href="/password-reset/ " style="text-decoration: none;">Forgot Password</a></small><br>
-                <input type="submit" class="btn btn-primary mt-4" value="Login">
-                <br>
-                <div class="text-center text-primary fw-bold"><small>New to Eshop ? <a href="/registration/"
-                class="text-danger">Create an Account</a> </small></div> 
-                 
-            </form>
-        </div>
-    </div>
-</div> -->

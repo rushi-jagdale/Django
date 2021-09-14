@@ -5,6 +5,8 @@ from django.contrib import messages
 from .models import Patient
 # Create your views here.
 
+def home(request):
+    return render(request,'login.html')
 
 # def home(request):
 #     return render(request,'index.html')

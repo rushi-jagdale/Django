@@ -5,7 +5,7 @@ from .models import Patient
 # 
 class PatientAdmin(admin.ModelAdmin):
     list_display = ('name','gender','address')
-    list_editable = ['address']
-    list_per_page = 3
+   
+    list_per_page = 4
 
 admin.site.register(Patient,PatientAdmin)
